@@ -69,11 +69,11 @@ if not os.path.exists(cp_dir):
     os.mkdir(cp_dir)
 
 for f in data_files:
+    if f.find("_f1") == -1:
+        continue
     filename = os.path.basename(f)
     
-    solve_and_save(f,cp_dir,1)
-    solve_and_save(f,cp_dir,2)
-    solve_and_save(f,cp_dir,3)
+    solve_and_save(f,cp_dir,600)
         
     #if os.path.exists(os.path.join(cp_dir,filename + ".out")):
     #    continue

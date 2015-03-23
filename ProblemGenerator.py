@@ -72,9 +72,9 @@ if __name__ == "__main__":
     # arrival_time_options = [0]
 
     jobs_options = [30, 40]
-    due_date_options = [20]
-    machines_options = [20, 30]
-    process_time_options = [20, 30]
+    due_date_options = [10]
+    machines_options = [15]
+    process_time_options = [20, 25]
     arrival_time_options = [0]
 
     # jobs_options = [15,20,25]
@@ -101,7 +101,7 @@ if __name__ == "__main__":
                         for t in range(0, tests_per_combination):
                             problem = generate_problem(m, j, d, p, a, m)
                             save_problem_to_file(problem, os.path.join(
-                                problems_dir, "m{0:02}j{1:02}d{2:02}_{3}.csv".format(m, j, d, t)))
+                                problems_dir, "m{0:02}j{1:02}d{2:02}p{3:02}_{4}.csv".format(m, j, d, p, t)))
                             # problem_f2 = multiply_time_units(problem, 2)
                             # save_problem_to_file(problem_f2, os.path.join(
                             #     problems_dir, "m{0:02}j{1:02}d{2:02}_{3}_f2.csv".format(m, j, d, t)))
