@@ -3,10 +3,18 @@ import os
 import time
 
 
+# def generate_job(due_date, process_time, arrival_time, job_size):
+#         pi = random.randint(1, process_time)
+#         si = random.randint(1, job_size)
+#         ai = random.randint(0, arrival_time)
+#         di = random.randint(ai+pi, due_date+pi)
+#
+#         return [pi, di, si, ai]
+
 def generate_job(due_date, process_time, arrival_time, job_size):
-        pi = random.randint(1, process_time)
-        si = random.randint(1, job_size)
-        ai = random.randint(0, arrival_time)
+        pi = random.randint(process_time[0], process_time[1])
+        si = random.randint(job_size[0], job_size[1])
+        ai = random.randint(arrival_time[0], arrival_time[1])
         di = random.randint(ai+pi, due_date+pi)
 
         return [pi, di, si, ai]
@@ -71,11 +79,11 @@ if __name__ == "__main__":
     # process_time_options = [4]
     # arrival_time_options = [0]
 
-    jobs_options = [30, 40]
-    due_date_options = [10]
-    machines_options = [15]
-    process_time_options = [20, 25]
-    arrival_time_options = [0]
+    jobs_options = [15, 25]
+    due_date_options = [15, 25]
+    machines_options = [15, 25]
+    process_time_options = [[1, 5], [2, 10], [4, 20]]
+    arrival_time_options = [[0, 0]]
 
     # jobs_options = [15,20,25]
     # due_date_options = [15,20,25]
@@ -92,16 +100,16 @@ if __name__ == "__main__":
     if not os.path.exists(problems_dir):
         os.mkdir(problems_dir)
 
-    tests_per_combination = 10
+    tests_per_combination = 5
     for j in jobs_options:
         for d in due_date_options:
             for m in machines_options:
                 for p in process_time_options:
                     for a in arrival_time_options:
                         for t in range(0, tests_per_combination):
-                            problem = generate_problem(m, j, d, p, a, m)
+                            problem = generate_problem(m, j, d, p, a, [1, m])
                             save_problem_to_file(problem, os.path.join(
-                                problems_dir, "m{0:02}j{1:02}d{2:02}p{3:02}_{4}.csv".format(m, j, d, p, t)))
+                                problems_dir, "m{0:02}j{1:02}d{2:02}p{3:02}_{4}.csv".format(m, j, d, p[1], t)))
                             # problem_f2 = multiply_time_units(problem, 2)
                             # save_problem_to_file(problem_f2, os.path.join(
                             #     problems_dir, "m{0:02}j{1:02}d{2:02}_{3}_f2.csv".format(m, j, d, t)))
