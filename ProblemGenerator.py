@@ -79,10 +79,10 @@ if __name__ == "__main__":
     # process_time_options = [4]
     # arrival_time_options = [0]
 
-    jobs_options = [15, 25]
-    due_date_options = [15, 25]
+    jobs_options = [30, 40, 50]
+    due_date_options = [20]
     machines_options = [15, 25]
-    process_time_options = [[1, 5], [2, 10], [4, 20]]
+    process_time_options = [[1, 5], [2, 10], [4, 20], [8, 40]]
     arrival_time_options = [[0, 0]]
 
     # jobs_options = [15,20,25]
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     if not os.path.exists(problems_dir):
         os.mkdir(problems_dir)
 
-    tests_per_combination = 5
+    tests_per_combination = 10
     for j in jobs_options:
         for d in due_date_options:
             for m in machines_options:
