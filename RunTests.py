@@ -7,12 +7,15 @@ import csv
 
 
 # ************* Main Program ************************
-if len(sys.argv) < 2:
+path = None
+path = "C:\Users\izaides\PycharmProjects\Emulators\GeneratedProblems_201504052237"
+
+if path is None and len(sys.argv) < 2:
     print 'Please enter directory with problems data'
     # Raw_input is used to collect data from the user
     path = raw_input('> ')
-else:
-    path = sys.argv[0]
+elif path is None:
+    path = sys.argv[1]
 
 if os.path.isdir(path) is False:
     print path + ", is not a directory, exit or enter directory name"

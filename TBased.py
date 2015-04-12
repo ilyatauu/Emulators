@@ -546,7 +546,7 @@ class TBasedCplexSolver(object):
         cplex_solver.objective.set_sense(cplex_solver.objective.sense.minimize)
 
         # set time limit to 10 minutes
-        cplex_solver.parameters.timelimit.set(600)
+        cplex_solver.parameters.timelimit.set(1800)
 
         cplex_solver.parameters.parallel.set(1)
         cplex_solver.parameters.threads.set(4)
