@@ -8,7 +8,7 @@ import csv
 
 # ************* Main Program ************************
 path = None
-# path = "C:\Users\izaides\PycharmProjects\Emulators\GeneratedProblems_201503312055"
+path = "C:\Users\izaides\PycharmProjects\Emulators\GeneratedProblems_201504052237"
 
 if path is None and len(sys.argv) < 2:
     print 'Please enter directory with problems data'
