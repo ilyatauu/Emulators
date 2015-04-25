@@ -1,0 +1,14 @@
+/*********************************************
+ * OPL 12.5.1.0 Data
+ * Author: izaides
+ * Creation Date: Apr 16, 2014 at 8:34:08 PM
+ *********************************************/
+
+ 
+ SheetConnection sheet(".\\Problems\\RandomGeneration_old\\m8j10d15_0.xlsx");
+ jobs from SheetRead(sheet, "jobs");
+ M from SheetRead(sheet, "Number_of_machines");
+ p from SheetRead(sheet, "processtime");
+ d from SheetRead(sheet, "duedate");
+ s from SheetRead(sheet, "size");
+ a from SheetRead(sheet, "arrivaltime");

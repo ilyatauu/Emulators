@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<configs>
+		<config default="false" name="LayoutConfiguration" category="opl">
+			<ref type="model" name="Models/LayoutFormulation.mod">
+			</ref>
+			<ref type="data" name="MIPData.dat">
+			</ref>
+		</config>
+		<config default="false" name="OurFormulationConfig" category="opl">
+			<ref type="model" name="Models/OurFormulation.mod">
+			</ref>
+			<ref type="data" name="layout_test.dat">
+			</ref>
+		</config>
+		<config default="false" name="RPFGuanConfig" category="opl">
+			<ref type="model" name="Models/RPFGuan.mod">
+			</ref>
+			<ref type="data" name="MIPData.dat">
+			</ref>
+		</config>
+		<config default="false" name="CPSchedulingConfig" category="opl">
+			<ref type="model" name="Models/CPScheduling.mod">
+			</ref>
+			<ref type="data" name="CPData.dat">
+			</ref>
+		</config>
+		<config default="false" name="RunnerConfig" category="opl">
+			<ref type="model" name="Runner/ModelRunner.mod">
+			</ref>
+		</config>
+		<config default="true" name="CPGenerated" category="opl">
+			<ref type="model" name="CPGenerated.mod">
+			</ref>
+		</config>
+	</configs>
+	
+</project>
