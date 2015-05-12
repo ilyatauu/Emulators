@@ -1,0 +1,4 @@
+SheetConnection sheet(".\\Problems\\RandomGeneration_old\\m8j10d15_0.xlsx");
+ 
+jobs from SheetRead(sheet,"JobsTable");
+ M from SheetRead(sheet, "Number_of_machines");

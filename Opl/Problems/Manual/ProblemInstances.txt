@@ -1,0 +1,65 @@
+ // Four machines variant
+ // Best solution should be x[1,1,1], x[2,3,1], x[3,1,2],x[4,1,3]
+ 
+ range jobs = 1..4; // jobs
+ range time = 1..10; // time index the last number is actually T
+ range machines = 1..3; // machines that we have 
+ 
+ int p[jobs] = [1,2,2,1];
+ int d[jobs] = [3,4,10,10];
+ int s[jobs] = [2,1,2,3];
+ int a[jobs] = [1,1,1,1];
+ int em[jobs][machines] = [[1,1,0],[1,1,1],[1,1,0],[1,0,0]];
+ 
+ ************************************************************************************************
+ // Two machines , instance 1
+ // Best solution: x[1,1,1], x[2,1,2]
+ range jobs = 1..2; // jobs
+ range time = 1..4; // time index the last number is actually T
+ range machines = 1..3; // machines that we have 
+ 
+ int p[jobs] = [1,2];
+ int d[jobs] = [10,10];
+ int s[jobs] = [2,2];
+ int a[jobs] = [1,1];
+ int em[jobs][machines] = [[1,1,0],[1,1,0]];
+ 
+ ************************************************************************************************
+ 
+  // Two machines variant
+ // Best solution should be x[1,1,1], x[2,2,1]
+ 
+ range jobs = 1..2; // jobs
+ range time = 1..3; // time index the last number is actually T
+ range machines = 1..3; // machines that we have 
+ 
+ int p[jobs] = [2,2];
+ int d[jobs] = [4,10];
+ int s[jobs] = [1,2];
+ int a[jobs] = [1,1];
+ int em[jobs][machines] = [[1,1,1],[1,1,0]];
+ 
+ ************************************************************************************************
+ 
+ 
+ range jobs = 1..10; // jobs
+ range time = 1..10; // time index the last number is actually T
+ range machines = 1..5; // machines that we have 
+ 
+ int p[jobs] = [1,2,2,1,3,2,5,3,4,4];
+ int d[jobs] = [3,4,40,40,40,40,40,40,40,40];
+ int s[jobs] = [2,1,2,3,3,4,4,2,2,2];
+ int a[jobs] = [1,1,1,1,1,1,1,1,1,1];
+ //int em[jobs][machines] = [[1,1,0],[1,1,1],[1,1,0],[1,0,0]];
+ 
+ 
+ **************************************************************************************************
+ 
+ range jobs = 1..10; // jobs
+ range time = 1..40; // time index the last number is actually T
+ range machines = 1..5; // machines that we have 
+ 
+ int p[jobs] = [1,2,2,1,3,2,5,3,4,4];
+ int d[jobs] = [3,4,40,40,40,40,40,40,40,40];
+ int s[jobs] = [2,1,2,3,3,4,5,1,1,1];
+ int a[jobs] = [1,1,1,1,1,1,1,1,1,1];

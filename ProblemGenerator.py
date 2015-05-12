@@ -79,11 +79,12 @@ if __name__ == "__main__":
     # process_time_options = [4]
     # arrival_time_options = [0]
 
-    jobs_options = [30, 40, 50]
-    due_date_options = [20]
-    machines_options = [15, 25]
-    process_time_options = [[1, 5], [2, 10], [4, 20], [8, 40]]
-    arrival_time_options = [[0, 0]]
+    ## Big problems
+    # jobs_options = [30, 40, 50]
+    # due_date_options = [20]
+    # machines_options = [15, 25]
+    # process_time_options = [[1, 5], [2, 10], [4, 20], [8, 40]]
+    # arrival_time_options = [[0, 0]]
 
     # jobs_options = [15,20,25]
     # due_date_options = [15,20,25]
@@ -94,6 +95,14 @@ if __name__ == "__main__":
     # jobs_options = [4,8]
     # due_date_options = [10,20]
     # machines_options = [4,6]
+
+    jobs_options = [15, 25]
+    due_date_options = [15, 25]
+    machines_options = [15, 25]
+    process_time_options = [[8, 40]]
+    arrival_time_options = [[0, 0]]
+
+
 
     problems_dir = ".\GeneratedProblems_" + time.strftime("%Y%m%d%H%M")
 
