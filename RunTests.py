@@ -8,8 +8,8 @@ import csv
 
 # ************* Main Program ************************
 path = None
-path = "C:\Users\izaides\PycharmProjects\Emulators\GeneratedProblems_201504152238"
-
+# path = "C:\Users\izaides\PycharmProjects\Emulators\GeneratedProblems_201504152238"
+path = "C:\Users\izaides\PycharmProjects\Emulators\GeneratedProblems_201505172119"
 if path is None and len(sys.argv) < 2:
     print 'Please enter directory with problems data'
     # Raw_input is used to collect data from the user

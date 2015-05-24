@@ -270,6 +270,7 @@ class EmulatorsCplexSolverRPFGuan(object):
 
         # set time limit to 2 hours
         cplex_solver.parameters.timelimit.set(1800)
+        #cplex_solver.parameters.timelimit.set(10)
 
         cplex_solver.parameters.parallel.set(1)
         cplex_solver.parameters.threads.set(4)
@@ -423,6 +424,7 @@ class EmulatorsCplexSolverRPFGuan(object):
         result.job_info = job_info_list
         result.relative_gap = cplex_solver.solution.MIP.get_mip_relative_gap()
         result.model_build_time = end_preparation - start_preparation
+        result.model_solution_time = end_solve - start_solve
 
         return result
 

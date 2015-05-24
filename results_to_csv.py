@@ -1,5 +1,21 @@
 import os
 import sys
+import re
+
+
+def parse_filename(filename):
+    # example: m15j15d15p05_0
+    pattern = "m(?P<machines>[0-9]+)j(?P<jobs>[0-9]+)" \
+              "d(?P<duedate>[0-9]+)p(?P<processtime>[0-9]+)_(?P<iteration>[0-9]+).*"
+
+    match = re.search(pattern,filename)
+    m = match.group("machines")
+    j = match.group("jobs")
+    d = match.group("duedate")
+    p = match.group("processtime")
+    i = match.group("iteration")
+
+    return [m, j, d, p, i]
 
 if len(sys.argv) < 2:
     print 'Please enter directory with problems data'
@@ -23,9 +39,9 @@ if os.path.isdir(base_path) is False:
 # dir_list = ["RPFGuan_Penalty_10sec","RPFGuan_Penalty_20sec","RPFGuan_Penalty_30sec"]
 # dir_list = ["RPFGuan_Penalty","TBasedW_Penalty"]
 # dir_list = ["CP_Penalty"]
-dir_list = ["RPFGuan_Penalty", "TBasedW_Penalty"]
+dir_list = ["RPFGuan", "TBasedW"]
 col_prefix2 = [x.lower()+y for x in dir_list
-               for y in ["_solution", "_optimal", "_time", "gap", "build_time"]]
+               for y in ["_solution", "_optimal", "_time", "gap", "build_time", "_solution_time"]]
 
 files = set()
 for d in dir_list:
@@ -41,7 +57,7 @@ path_out = os.path.join(base_path, "results.csv")
 
 # first_line = "file,guan_solution,guan_optimal,guan_time,heragu_solution,
 # heragu_optimal,heragu_time,our_solution,our_optimal,our_time"
-first_line = ",".join(["file"] + col_prefix2)
+first_line = ",".join(["file", "m", "j", "d", "p", "i"] + col_prefix2)
 
 
 # rf_rpfguan = set([x for x in os.listdir(rpfguan_results_path) if os.path.splitext(x)[1] == ".out"])
@@ -57,6 +73,8 @@ files = sorted(files)
 
 for f in files:
     ffline = [f]
+    params = parse_filename(f)
+    ffline = ffline + params
     for d in dir_list:
         ff = os.path.join(base_path, d, f)
         if os.path.exists(ff):
@@ -67,7 +85,9 @@ for f in files:
             elif len(tmpline.split(",")) == 3:
                 ffline.append(tmpline + ",,")
             else:
-                ffline.append(tmpline)
+                tmparr = tmpline.split(',')
+
+                ffline.append(tmpline+','+str(float(tmparr[2])-float(tmparr[4])))
         else:
             ffline.append("NA,NA,NA")
     lines.append(",".join(ffline))

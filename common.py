@@ -14,6 +14,7 @@ class CplexResult(object):
     total_solve_time = None
     relative_gap = None
     model_build_time = None
+    model_solution_time = None
 
 
 class JobInfo(object):

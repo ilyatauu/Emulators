@@ -95,11 +95,11 @@ if __name__ == "__main__":
     # jobs_options = [4,8]
     # due_date_options = [10,20]
     # machines_options = [4,6]
-
-    jobs_options = [15, 25]
+    #
+    jobs_options = [25]
     due_date_options = [15, 25]
     machines_options = [15, 25]
-    process_time_options = [[8, 40]]
+    process_time_options = [[1, 5], [4, 20], [8, 40]]
     arrival_time_options = [[0, 0]]
 
 

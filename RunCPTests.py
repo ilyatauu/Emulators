@@ -25,12 +25,12 @@ def solve_and_save(fullfilename, cp_dir, seconds_limit):
     file_out = os.path.join(cp_dir,filename + "_limit" + `seconds_limit` + "s.out")
     outf = open(file_out,"w")
 
-    if result.optimal == True:
+    if result.optimal:
         optimal_int = 1
     else:
         optimal_int = 0
 
-    if result.feasible == False:
+    if not result.feasible:
         output = ["-1," + `optimal_int`] + ["\n"]
     else:
         output = [`result.objective_value` + ","+ `optimal_int` + "," + `result.total_run_time`] + ["\n"]
@@ -39,17 +39,18 @@ def solve_and_save(fullfilename, cp_dir, seconds_limit):
     outf.flush()
     outf.close()
 
+# ************* Main Program ************************
+path = None
+path = "C:\Users\izaides\PycharmProjects\Emulators\GeneratedProblems_Big"
 
-
-#************* Main Program ************************
-if len(sys.argv) < 2:
+if path is None and len(sys.argv) < 2:
     print 'Please enter directory with problems data'
-    #Raw_input is used to collect data from the user
+    # Raw_input is used to collect data from the user
     path = raw_input('> ')    
-else:
-    path = sys.argv[0]
+elif path is None:
+    path = sys.argv[1]
 
-if os.path.isdir(path) == False:
+if not os.path.isdir(path):
     print path + ", is not a directory, exit or enter directory name"
     path = raw_input('> ')
 
@@ -69,46 +70,48 @@ if not os.path.exists(cp_dir):
     os.mkdir(cp_dir)
 
 for f in data_files:
-    if f.find("_f1") == -1:
-        continue
-    filename = os.path.basename(f)
+    # filename = os.path.basename(f)
     
-    solve_and_save(f,cp_dir,600)
+    solve_and_save(f, cp_dir, 1)
+    solve_and_save(f, cp_dir, 2)
+    solve_and_save(f, cp_dir, 5)
+    solve_and_save(f, cp_dir, 10)
+    solve_and_save(f, cp_dir, 20)
         
-    #if os.path.exists(os.path.join(cp_dir,filename + ".out")):
+    # if os.path.exists(os.path.join(cp_dir,filename + ".out")):
     #    continue
     
-    ##returns data from the file as a matrix (int format)
-    #data = common.load_data2(f);
-    ##data related to jobs is starting from the second row in the matrix
-    #jobs_data = data[0]
+    ## returns data from the file as a matrix (int format)
+    # data = common.load_data2(f);
+    ## data related to jobs is starting from the second row in the matrix
+    # jobs_data = data[0]
 
-    #solver = cpbased.EmulatorsCpSolver()
-    #if lbdata != None:
+    # solver = cpbased.EmulatorsCpSolver()
+    # if lbdata != None:
     #    solver.total_penalty_lower_bound = int([x[1] for x in lbdata if x[0] == filename][0])
-    #else:
+    # else:
     #    solver.total_penalty_lower_bound = None
-    #solver.time_limit = 1
-    #result = solver.solve_penalty_only(jobs_data,data[1])
-    #print "Objective value: " + `result.objective_value`
+    # solver.time_limit = 1
+    # result = solver.solve_penalty_only(jobs_data,data[1])
+    # print "Objective value: " + `result.objective_value`
 
-    #if not os.path.exists(cp_dir):
+    # if not os.path.exists(cp_dir):
     #    os.mkdir(cp_dir)
 
-    #file_out = os.path.join(cp_dir,filename + ".out")
-    #outf = open(file_out,"w")
+    # file_out = os.path.join(cp_dir,filename + ".out")
+    # outf = open(file_out,"w")
 
-    #if result.optimal == True:
+    # if result.optimal == True:
     #    optimal_int = 1
-    #else:
+    # else:
     #    optimal_int = 0
 
-    #if result.feasible == False:
+    # if result.feasible == False:
     #    output = ["-1," + `optimal_int`] + ["\n"]
-    #else:
+    # else:
     #    output = [`result.objective_value` + ","+ `optimal_int` + "," + `result.total_run_time`] + ["\n"]
     
-    #outf.writelines(output)
-    #outf.close()
+    # outf.writelines(output)
+    # outf.close()
 
 

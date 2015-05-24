@@ -672,6 +672,7 @@ class TBasedCplexSolver(object):
         result.objective_value = int(round(cplex_solver.solution.get_objective_value()))
         result.relative_gap = cplex_solver.solution.MIP.get_mip_relative_gap()
         result.model_build_time = end_preparation - start_preparation
+        result.model_solution_time = end_solve - start_solve
 
         result.job_info = job_info_list
 
