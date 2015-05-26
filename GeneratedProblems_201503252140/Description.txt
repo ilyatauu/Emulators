@@ -1,6 +1,0 @@
-    jobs_options = [15, 25]
-    due_date_options = [15, 25]
-    machines_options = [15, 25]
-    process_time_options = [[1, 5], [1, 10], [1, 20]]
-    arrival_time_options = [[0, 0]]
-	tests_per_combination = 5

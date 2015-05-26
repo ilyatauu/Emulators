@@ -41,7 +41,7 @@ def solve_and_save(fullfilename, cp_dir, seconds_limit):
 
 # ************* Main Program ************************
 path = None
-path = "C:\Users\izaides\PycharmProjects\Emulators\GeneratedProblems_Big"
+path = "C:\Users\izaides\PycharmProjects\Emulators\GeneratedProblems_Regular_20150523"
 
 if path is None and len(sys.argv) < 2:
     print 'Please enter directory with problems data'

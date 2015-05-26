@@ -3,12 +3,12 @@ import sys
 import re
 
 
-def parse_filename(filename):
+def parse_problem_filename(filename):
     # example: m15j15d15p05_0
     pattern = "m(?P<machines>[0-9]+)j(?P<jobs>[0-9]+)" \
               "d(?P<duedate>[0-9]+)p(?P<processtime>[0-9]+)_(?P<iteration>[0-9]+).*"
 
-    match = re.search(pattern,filename)
+    match = re.search(pattern, filename)
     m = match.group("machines")
     j = match.group("jobs")
     d = match.group("duedate")
@@ -16,6 +16,24 @@ def parse_filename(filename):
     i = match.group("iteration")
 
     return [m, j, d, p, i]
+
+def parse_out_filename(filename):
+    # example: m15j30d20p05_0.csv_limit1s.out
+    pattern = "m(?P<machines>[0-9]+)j(?P<jobs>[0-9]+)" \
+              "d(?P<duedate>[0-9]+)p(?P<processtime>[0-9]+)_(?P<iteration>[0-9]+).*_limit(?P<seclimit>[0-9])?.*"
+
+    match = re.search(pattern, filename)
+    m = match.group("machines")
+    j = match.group("jobs")
+    d = match.group("duedate")
+    p = match.group("processtime")
+    i = match.group("iteration")
+    l = match.group("seclimit")
+
+    if l is None:
+        l = 1800
+
+    return [m, j, d, p, i, l]
 
 if len(sys.argv) < 2:
     print 'Please enter directory with problems data'
@@ -39,13 +57,21 @@ if os.path.isdir(base_path) is False:
 # dir_list = ["RPFGuan_Penalty_10sec","RPFGuan_Penalty_20sec","RPFGuan_Penalty_30sec"]
 # dir_list = ["RPFGuan_Penalty","TBasedW_Penalty"]
 # dir_list = ["CP_Penalty"]
-dir_list = ["RPFGuan", "TBasedW"]
-col_prefix2 = [x.lower()+y for x in dir_list
-               for y in ["_solution", "_optimal", "_time", "gap", "build_time", "_solution_time"]]
+
+dir_list = ["Guan", "TBased2", "CP_limit1s", "CP_limit2s", "CP_limit5s", "CP_limit10s", "CP_limit20s"]
+# This columns are for Guan and TBased formulations
+col_prefix2 = []
+for dd in dir_list:
+    if dd.startswith("CP"):
+        col_prefix2 = col_prefix2 + [dd.lower() + x
+                                     for x in ["_solution", "_optimal", "_time"]]
+    else:
+        col_prefix2 = col_prefix2 + [dd.lower() + x
+                                     for x in ["_solution", "_optimal", "_time", "gap", "build_time", "_solution_time"]]
 
 files = set()
-for d in dir_list:
-    path = os.path.join(base_path, d)
+for dd in dir_list:
+    path = os.path.join(base_path, dd)
     files = files.union(set([x for x in os.listdir(path) if os.path.splitext(x)[1] == ".out"]))
     # and os.path.splitext(x)[0].endswith("f7.csv")]))
 
@@ -73,7 +99,7 @@ files = sorted(files)
 
 for f in files:
     ffline = [f]
-    params = parse_filename(f)
+    params = parse_problem_filename(f)
     ffline = ffline + params
     for d in dir_list:
         ff = os.path.join(base_path, d, f)
@@ -83,7 +109,7 @@ for f in files:
             if tmpline.split(",")[0] == "-1":
                 ffline.append("NA,NA," + tmpline.split(",")[2])
             elif len(tmpline.split(",")) == 3:
-                ffline.append(tmpline + ",,")
+                ffline.append(tmpline)
             else:
                 tmparr = tmpline.split(',')
 
