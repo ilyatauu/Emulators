@@ -2,6 +2,12 @@ import csv
 import sys
 import os
 import copy
+import formulations.cplex_mip
+import formulations.structures
+import converters.fileconvert
+import converters.dataconvert
+
+
 
 
 class CplexResult(object):
@@ -16,7 +22,6 @@ class CplexResult(object):
     model_build_time = None
     model_solution_time = None
 
-
 class JobInfo(object):
     job_id = None
     start_time = None
@@ -25,7 +30,6 @@ class JobInfo(object):
     finish_board = None
     tardiness = None
 
-
 class SolutionProps:
 
     def __init__(self):
@@ -33,7 +37,6 @@ class SolutionProps:
 
     total_penalty_lower_bound = None
     total_penalty_upper_bound = None
-
 
 def load_data2(filename):
     data = None
@@ -54,7 +57,6 @@ def load_data2(filename):
 
     return jobs_data, data[0][0]
 
-
 def load_solution(filename):
     if filename is None:
         return
@@ -63,7 +65,6 @@ def load_solution(filename):
         data = list(csv.reader(csvfile, delimiter=','))
 
     return data
-
 
 def get_output_string(cplex_result):
     """ Create csv string output in format
@@ -94,14 +95,12 @@ def get_output_string(cplex_result):
         "{0},{1},{2},{3}".format(i.job_id, i.start_time, i.first_board, i.tardiness) for i in cplex_result.job_info]
     return '\n'.join(output)
 
-
 def get_edr_single_machine_max_time(jobs_data):
     max_time = 0
     for j in jobs_data:
         max_time += j[1] + j[4]
 
     return max_time
-
 
 def moores_single_machine_tardy_jobs_with_slicing(jobs_data, number_of_boards):
     jobs_data_new = copy.deepcopy(jobs_data)
@@ -127,7 +126,6 @@ def moores_single_machine_tardy_jobs_with_slicing(jobs_data, number_of_boards):
             tardy_jobs_data.append(longest_job)
 
     return early_jobs_data, tardy_jobs_data
-
 
 def solve_and_save(filename, outputdir, solve_callback, props):
     if filename is None and len(sys.argv) < 2:
@@ -159,7 +157,6 @@ def solve_and_save(filename, outputdir, solve_callback, props):
     outf.writelines(get_output_string(cplex_result))
     outf.close()
 
-
 def get_previous_factored_solution(filename):
     if filename is None:
         return None
@@ -177,3 +174,124 @@ def get_previous_factored_solution(filename):
     previous_solution = load_solution(previous_filename)
 
     return previous_solution
+
+def get_builder_and_reader(formulation_type, problem_type):
+    def get_key(phase):
+        return "{}_{}_{}".format(formulation_type, problem_type, phase)
+    if not hasattr(get_builder_and_reader, "fmap"):
+        get_builder_and_reader.fmap = {}
+    fmap = get_builder_and_reader.fmap
+
+    if get_key("builder") not in fmap:
+        fmap[get_key("builder")] = formulations.cplex_mip.get_formulation_builder(
+            formulation_type, problem_type)
+    if get_key("reader") not in fmap:
+        fmap[get_key("reader")] = formulations.cplex_mip.get_results_reader(formulation_type)
+
+    return fmap[get_key("builder")], fmap[get_key("reader")]
+
+def solve_and_save2(filename, outputfilename, formulation_type, problem_type):
+
+    builder, reader = get_builder_and_reader(formulation_type, problem_type)
+    data = converters.fileconvert.load_data(filename)
+    schedule = formulations.cplex_mip.solve(data, builder, reader)
+
+    write_schedule(schedule, outputfilename)
+
+def solve_and_save_withdivide(filename, outputfilename, formulation_type, problem_type, divider):
+    builder, reader = get_builder_and_reader(formulation_type, problem_type)
+    data = converters.fileconvert.load_data(filename)
+    new_data = converters.dataconvert.divide_time_feasible(data, float(divider))
+    schedule1 = formulations.cplex_mip.solve(new_data, builder, reader)
+    write_schedule(schedule1, outputfilename)
+
+def solve_and_save_guantbased_combined(filename, outputfilename, divider, dataconverter):
+
+    builder, reader = get_builder_and_reader("tbasedw", "tardy_jobs")
+    data = converters.fileconvert.load_data(filename)
+    new_data = dataconverter(data, float(divider))
+    schedule_t = formulations.cplex_mip.solve(new_data, builder, reader)
+
+    # write_schedule(schedule_t, outputfilename + ".tbasedw")
+    order = get_solution_order(schedule_t)
+
+    builder, reader = get_builder_and_reader("guan", "tardy_jobs")
+
+    def add_order_constraint(formulation_model):
+        import formulations.guan.tardyjobs
+        formulations.guan.tardyjobs.add_decision_vars_constraints(formulation_model, order)
+
+    schedule_g = formulations.cplex_mip.solve(data, builder, reader, [add_order_constraint])
+
+    joined_schedule = join_schedules(schedule_t, schedule_g)
+
+    write_schedule(schedule_g, outputfilename + ".guan")
+    write_schedule(schedule_t, outputfilename + ".tbased")
+
+    write_schedule(joined_schedule, outputfilename)
+
+
+def solve_and_save_guantbased_combined_feasible(filename, outputfilename, divider):
+    solve_and_save_guantbased_combined(filename, outputfilename,
+                                       divider, converters.dataconvert.divide_time_feasible)
+
+
+def solve_and_save_guantbased_combined_optimistic(filename, outputfilename, divider):
+    solve_and_save_guantbased_combined(filename, outputfilename,
+                                       divider, converters.dataconvert.divide_time_optimistic)
+
+
+def write_schedule(schedule, fullfilename):
+    serialized = converters.fileconvert.serialize_as_strings(schedule)
+    outputdir = os.path.dirname(fullfilename)
+    # write results to file
+    if not os.path.exists(outputdir):
+        os.mkdir(outputdir)
+
+    outf = open(fullfilename, "w")
+    outf.writelines(serialized)
+    outf.close()
+
+def get_solution_order(schedule):
+    """
+    :param schedule: a solution schedule
+    :return: list of tuples (delta_ij, sigma_ij)
+        delta_ij - whether i is starting before job j
+        sigma_ij - whether i is starting before jobs j
+        if the condition is true for both of the options only one will be chosen
+        the rule is the one with biggest difference is chosen
+    """
+    def get_id(x):
+        return repr(x.job_id)
+
+    pdcit = dict()
+    for j in schedule.jobs_info:
+        for i in schedule.jobs_info:
+            if j.job_id == i.job_id:
+                continue
+
+            tmp_value = min([(j.finish_time - i.start_time, (1, 0)),
+                             (j.finish_board - i.first_board, (0, 1)),
+                             (0.01, (0, 0))
+                             ], key=lambda x: x[0])
+
+            if tmp_value[0] <= 0:
+                pdcit[get_id(j) + ',' + get_id(i)] = tmp_value[1]
+
+    return pdcit
+
+def join_schedules(schedule1, schedule2):
+    joined = formulations.structures.ScheduleResult()
+    joined.feasible = schedule1.feasible & schedule2.feasible
+    joined.optimal = schedule1.optimal & schedule2.optimal
+    joined.objective_value = schedule2.objective_value
+    joined.total_penalty = schedule2.total_penalty
+    joined.total_tardiness = schedule2.total_tardiness
+    joined.jobs_info = schedule2.jobs_info
+    joined.total_solve_time = schedule1.total_solve_time + schedule2.total_solve_time
+    joined.relative_gap = schedule1.relative_gap + schedule2.relative_gap
+    joined.model_build_time = schedule1.model_build_time + schedule2.model_build_time
+    joined.model_solution_time = schedule1.model_solution_time + schedule2.model_solution_time
+
+    return joined
+

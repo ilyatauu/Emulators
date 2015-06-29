@@ -9,8 +9,11 @@ import cpbased
 
 
 def solve_and_save(fullfilename, cp_dir, seconds_limit):
+    if not os.path.exists(cp_dir):
+        os.mkdir(cp_dir)
+
     filename = os.path.basename(f)
-    file_out = os.path.join(cp_dir,filename + "_limit" + `seconds_limit` + "s.out")
+    file_out = os.path.join(cp_dir, filename + "_limit" + repr(seconds_limit) + "s.out")
     
     if os.path.exists(file_out):
         return
@@ -22,8 +25,8 @@ def solve_and_save(fullfilename, cp_dir, seconds_limit):
     result = solver.solve_penalty_only(problem_data[0],problem_data[1])
     print "Objective value: " + `result.objective_value`
 
-    file_out = os.path.join(cp_dir,filename + "_limit" + `seconds_limit` + "s.out")
-    outf = open(file_out,"w")
+    file_out = os.path.join(cp_dir, filename + ".out")
+    outf = open(file_out, "w")
 
     if result.optimal:
         optimal_int = 1
@@ -41,7 +44,7 @@ def solve_and_save(fullfilename, cp_dir, seconds_limit):
 
 # ************* Main Program ************************
 path = None
-path = "C:\Users\izaides\PycharmProjects\Emulators\GeneratedProblems_Regular_20150523"
+path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\SmallToMedium\ProblemsWithP60_80"
 
 if path is None and len(sys.argv) < 2:
     print 'Please enter directory with problems data'
@@ -54,7 +57,7 @@ if not os.path.isdir(path):
     print path + ", is not a directory, exit or enter directory name"
     path = raw_input('> ')
 
-data_files = sorted([os.path.join(path,x) for x in os.listdir(path) if os.path.splitext(x)[1] == ".csv"])
+data_files = sorted([os.path.join(path, x) for x in os.listdir(path) if os.path.splitext(x)[1] == ".csv"])
 
 lbfile = os.path.join(path,"lower_bound.out")
 ubfile = os.path.join(path,"upper_bound.out")
@@ -64,7 +67,7 @@ if os.path.exists(os.path.join(path, lbfile)):
     with open(lbfile, 'rb') as csvfile:
         lbdata = list(csv.reader(csvfile, delimiter=','))
 
-cp_dir = os.path.join(path,"CP_Penalty")
+cp_dir = os.path.join(path, "CP")
 
 if not os.path.exists(cp_dir):
     os.mkdir(cp_dir)
@@ -72,11 +75,11 @@ if not os.path.exists(cp_dir):
 for f in data_files:
     # filename = os.path.basename(f)
     
-    solve_and_save(f, cp_dir, 1)
-    solve_and_save(f, cp_dir, 2)
-    solve_and_save(f, cp_dir, 5)
-    solve_and_save(f, cp_dir, 10)
-    solve_and_save(f, cp_dir, 20)
+    solve_and_save(f, cp_dir + "_1s", 1)
+    solve_and_save(f, cp_dir + "_2s", 2)
+    solve_and_save(f, cp_dir + "_5s", 5)
+    solve_and_save(f, cp_dir + "_10s", 10)
+    solve_and_save(f, cp_dir + "_20s", 20)
         
     # if os.path.exists(os.path.join(cp_dir,filename + ".out")):
     #    continue

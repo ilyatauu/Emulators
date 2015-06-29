@@ -15,7 +15,7 @@ if os.path.isdir(base_path) is False:
     print base_path + ", is not a directory, exit or enter directory name"
     base_path = raw_input('> ')
 
-dir_list = ["CP_limit1s", "CP_limit2s", "CP_limit5s", "CP_limit10s", "CP_limit20s"]
+dir_list = ["CP_1s", "CP_2s", "CP_5s", "CP_10s", "CP_20s"]
 for d in dir_list:
     path = os.path.join(base_path, d)
     for f in os.listdir(path):
@@ -24,6 +24,6 @@ for d in dir_list:
         newf = newf.replace("_limit5s", "")
         newf = newf.replace("_limit10s", "")
         newf = newf.replace("_limit20s", "")
-        os.rename(os.path.join(base_path, d,f), os.path.join(base_path, d,newf))
+        os.rename(os.path.join(base_path, d, f), os.path.join(base_path, d,newf))
 
 

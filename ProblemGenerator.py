@@ -96,10 +96,10 @@ if __name__ == "__main__":
     # due_date_options = [10,20]
     # machines_options = [4,6]
     #
-    jobs_options = [25]
+    jobs_options = [15, 25]
     due_date_options = [15, 25]
     machines_options = [15, 25]
-    process_time_options = [[1, 5], [4, 20], [8, 40]]
+    process_time_options = [[16, 80]]
     arrival_time_options = [[0, 0]]
 
 
@@ -116,7 +116,7 @@ if __name__ == "__main__":
                 for p in process_time_options:
                     for a in arrival_time_options:
                         for t in range(0, tests_per_combination):
-                            problem = generate_problem(m, j, d, p, a, [1, m])
+                            problem = generate_problem(m, j, d, p, a, [1, 5])
                             save_problem_to_file(problem, os.path.join(
                                 problems_dir, "m{0:02}j{1:02}d{2:02}p{3:02}_{4}.csv".format(m, j, d, p[1], t)))
                             # problem_f2 = multiply_time_units(problem, 2)

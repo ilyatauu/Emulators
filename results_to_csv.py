@@ -57,17 +57,22 @@ if os.path.isdir(base_path) is False:
 # dir_list = ["RPFGuan_Penalty_10sec","RPFGuan_Penalty_20sec","RPFGuan_Penalty_30sec"]
 # dir_list = ["RPFGuan_Penalty","TBasedW_Penalty"]
 # dir_list = ["CP_Penalty"]
-
-dir_list = ["Guan", "TBased2", "CP_limit1s", "CP_limit2s", "CP_limit5s", "CP_limit10s", "CP_limit20s"]
+# dir_list = ["guan", "tbasedw", "combined"]
+dir_list = ["cfp10", "cnfp10"]
+# dir_list = ["CP_1s", "CP_2s", "CP_5s", "CP_10s", "CP_20s"]
+# dir_list = ["Guan", "TBased2", "CP_limit1s", "CP_limit2s", "CP_limit5s", "CP_limit10s", "CP_limit20s"]
 # This columns are for Guan and TBased formulations
 col_prefix2 = []
+
+
 for dd in dir_list:
     if dd.startswith("CP"):
         col_prefix2 = col_prefix2 + [dd.lower() + x
                                      for x in ["_solution", "_optimal", "_time"]]
     else:
         col_prefix2 = col_prefix2 + [dd.lower() + x
-                                     for x in ["_solution", "_optimal", "_time", "gap", "build_time", "_solution_time"]]
+                                     for x in ["_solution", "_optimal", "_time", "_gap", "_build_time",
+                                               "_model_time", "_solution_time"]]
 
 files = set()
 for dd in dir_list:
@@ -112,8 +117,10 @@ for f in files:
                 ffline.append(tmpline)
             else:
                 tmparr = tmpline.split(',')
-
-                ffline.append(tmpline+','+str(float(tmparr[2])-float(tmparr[4])))
+                if len(tmparr) == 5:
+                    ffline.append(tmpline + ',' + ',' + str(float(tmparr[2])-float(tmparr[4])))
+                else:
+                    ffline.append(tmpline + ',' + str(float(tmparr[2])-float(tmparr[4])))
         else:
             ffline.append("NA,NA,NA")
     lines.append(",".join(ffline))
