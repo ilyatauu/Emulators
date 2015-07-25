@@ -240,6 +240,10 @@ def solve_and_save_guantbased_combined_optimistic(filename, outputfilename, divi
     solve_and_save_guantbased_combined(filename, outputfilename,
                                        divider, converters.dataconvert.divide_time_optimistic)
 
+def solve_and_save_guantbased_combined_round(filename, outputfilename, divider):
+    solve_and_save_guantbased_combined(filename, outputfilename,
+                                       divider, converters.dataconvert.divide_time_rounding)
+
 
 def write_schedule(schedule, fullfilename):
     serialized = converters.fileconvert.serialize_as_strings(schedule)

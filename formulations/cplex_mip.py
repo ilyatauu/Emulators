@@ -51,7 +51,7 @@ def solve(emulators_data, formulation_builder, results_reader, custom_builder_st
     for step in custom_builder_steps:
         step(formulation_model)
 
-    formulation_model.cplex_class.write("formulation.lp")
+    # formulation_model.cplex_class.write("formulation.lp")
     start_solve = time.time()
     formulation_model.cplex_class.solve()
     end_solve = time.time()

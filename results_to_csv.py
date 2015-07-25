@@ -58,7 +58,8 @@ if os.path.isdir(base_path) is False:
 # dir_list = ["RPFGuan_Penalty","TBasedW_Penalty"]
 # dir_list = ["CP_Penalty"]
 # dir_list = ["guan", "tbasedw", "combined"]
-dir_list = ["cfp10", "cnfp10"]
+# dir_list = ["cfp10_1", "cnfp10_1"]
+dir_list = ["cfp5", "cnfp5"]
 # dir_list = ["CP_1s", "CP_2s", "CP_5s", "CP_10s", "CP_20s"]
 # dir_list = ["Guan", "TBased2", "CP_limit1s", "CP_limit2s", "CP_limit5s", "CP_limit10s", "CP_limit20s"]
 # This columns are for Guan and TBased formulations

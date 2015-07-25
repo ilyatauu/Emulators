@@ -4,11 +4,15 @@ import common
 
 
 
+def get_outfilename(dirname):
+    return os.path.join(path, dirname, filename + ".out")
+
 # ************* Main Program ************************
 path = None
 # path = "C:\Users\izaides\PycharmProjects\Emulators\GeneratedProblems_201504152238"
 # path = "C:\Users\izaides\PycharmProjects\Emulators\TestIntegrability"
-path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\SmallToMedium\ProblemsWithP60_80"
+# path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\SmallToMedium\ProblemsWithP60_80"
+path = "C:\Users\izaides\PycharmProjects\Emulators\Problems_P80_MSize5"
 # path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big"
 # path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\SmallToMedium"
 if path is None and len(sys.argv) < 2:
@@ -37,13 +41,21 @@ for f in data_files:
     # if not os.path.exists(os.path.join(path, "guan", filename + ".out")):
     #     common.solve_and_save2(f, os.path.join(path, "guan"), "guan", "tardy_jobs")
 
-    if not os.path.exists(os.path.join(path, "cfp10_1", filename + ".out")):
-        common.solve_and_save_guantbased_combined_feasible(f, os.path.join(path, "cfp10_1",
-                                                                           filename + ".out"), 10.0)
+    fout = get_outfilename("cfp5_1")
+    if not os.path.exists(fout):
+        common.solve_and_save_guantbased_combined_feasible(f, fout, 5.0)
 
-    if not os.path.exists(os.path.join(path, "cnfp10_1", filename + ".out")):
-        common.solve_and_save_guantbased_combined_optimistic(f, os.path.join(path, "cnfp10_1",
-                                                                             filename + ".out"), 10.0)
+    fout = get_outfilename("cnfp5_1")
+    if not os.path.exists(fout):
+        common.solve_and_save_guantbased_combined_optimistic(f, fout, 5.0)
+
+    fout = get_outfilename("crnd5_1")
+    if not os.path.exists(fout):
+        common.solve_and_save_guantbased_combined_round(f, fout, 5.0)
+
+    fout = get_outfilename("guan")
+    if not os.path.exists(fout):
+        common.solve_and_save2(f, fout, "guan", "tardy_jobs")
 
     # if not os.path.exists(os.path.join(path, "cfp5", filename + ".out")):
     #     common.solve_and_save_guantbased_combined_feasible(f, os.path.join(path, "cfp5",
