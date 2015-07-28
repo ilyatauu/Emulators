@@ -5,6 +5,8 @@ def read(model, emulators_data):
     schedule_result = structures.ScheduleResult()
     schedule_result.feasible, schedule_result.optimal = cplex_mip.get_feasibility_and_optimality(model.cplex_class)
 
+    schedule_result.boards_number = emulators_data.boards_number
+
     jobs_info = []
 
     for j in emulators_data.jobs_info:

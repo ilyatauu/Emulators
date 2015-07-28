@@ -268,14 +268,27 @@ def get_solution_order(schedule):
     def get_id(x):
         return repr(x.job_id)
 
+    def get_last_cmpletion_time():
+        return max(schedule.jobs_info, key=lambda x: x.finish_time)
+
+    time_horizon = float(get_last_cmpletion_time())
+    boards_number = schedule.boards_number
+    big_number = 2 * time_horizon + boards_number
+
+    def get_time_proportion(j1, j2):
+        return (j1.finish_time - j2.start_time) * big_number / time_horizon
+
+    def get_size_proportion(j1, j2):
+        return (j1.finish_board - j2.first_board) * big_number / boards_number
+
     pdcit = dict()
     for j in schedule.jobs_info:
         for i in schedule.jobs_info:
             if j.job_id == i.job_id:
                 continue
 
-            tmp_value = min([(j.finish_time - i.start_time, (1, 0)),
-                             (j.finish_board - i.first_board, (0, 1)),
+            tmp_value = min([(get_time_proportion(j, i), (1, 0)),
+                             (get_size_proportion(j, i), (0, 1)),
                              (0.01, (0, 0))
                              ], key=lambda x: x[0])
 

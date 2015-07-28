@@ -5,12 +5,14 @@ def read(model, emulators_data):
     schedule_result = structures.ScheduleResult()
     schedule_result.feasible, schedule_result.optimal = cplex_mip.get_feasibility_and_optimality(model.cplex_class)
 
+    schedule_result.boards_number = emulators_data.boards_number
     jobs_info = []
 
     for j in emulators_data.jobs_info:
         for m in range(emulators_data.boards_number):
             for t in range(model.max_time):
-                if model.cplex_class.solution.get_values(model.vars_map['x{0},{1},{2}'.format(j.job_id, m, t)]) >= 1 - 1e-06:
+                if model.cplex_class.solution.get_values(
+                        model.vars_map['x{0},{1},{2}'.format(j.job_id, m, t)]) >= 1 - 1e-06:
                     info = structures.ScheduledJobInfo()
                     info.job_id = j.job_id
                     info.start_time = int(round(t))
