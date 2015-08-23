@@ -210,6 +210,8 @@ def solve_and_save_guantbased_combined(filename, outputfilename, divider, dataco
     builder, reader = get_builder_and_reader("tbasedw", "tardy_jobs")
     data = converters.fileconvert.load_data(filename)
     new_data = dataconverter(data, float(divider))
+
+
     schedule_t = formulations.cplex_mip.solve(new_data, builder, reader)
 
     # write_schedule(schedule_t, outputfilename + ".tbasedw")
@@ -269,7 +271,7 @@ def get_solution_order(schedule):
         return repr(x.job_id)
 
     def get_last_cmpletion_time():
-        return max(schedule.jobs_info, key=lambda x: x.finish_time)
+        return max(schedule.jobs_info, key=lambda x: x.finish_time).finish_time
 
     time_horizon = float(get_last_cmpletion_time())
     boards_number = schedule.boards_number

@@ -96,20 +96,20 @@ if __name__ == "__main__":
     # due_date_options = [10,20]
     # machines_options = [4,6]
     #
-    jobs_options = [15, 25]
-    due_date_options = [15, 25]
-    machines_options = [15, 25]
+    jobs_options = [25]
+    due_date_options = [200]
+    machines_options = [20]
     process_time_options = [[16, 80]]
     arrival_time_options = [[0, 0]]
+    size_options = [[1, 10]]
 
-
+    tests_per_combination = 10
 
     problems_dir = ".\GeneratedProblems_" + time.strftime("%Y%m%d%H%M")
 
     if not os.path.exists(problems_dir):
         os.mkdir(problems_dir)
 
-    tests_per_combination = 10
     for j in jobs_options:
         for d in due_date_options:
             for m in machines_options:

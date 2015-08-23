@@ -1,7 +1,7 @@
 import os
 import sys
 import re
-
+import string
 
 def parse_problem_filename(filename):
     # example: m15j15d15p05_0
@@ -60,8 +60,9 @@ if os.path.isdir(base_path) is False:
 # dir_list = ["guan", "tbasedw", "combined"]
 # dir_list = ["cfp10_1", "cnfp10_1"]
 # dir_list = ["cfp5_1"]
-dir_list = ["cfp10", "cfp8", "cfp5", "cfp3"]
-# dir_list = ["CP_1s", "CP_2s", "CP_5s", "CP_10s", "CP_20s"]
+# dir_list = ["cfp10", "cfp8", "cfp5", "cfp3"]
+# dir_list = [x+repr(y) for x in ["cfp", "cnfp", "crnd"] for y in [80, 40, 20, 10, 5, 3]]
+dir_list = ["CP_1s", "CP_2s", "CP_3s", "CP_5s", "CP_10s", "CP_20s"]
 # dir_list = ["Guan", "TBased2", "CP_limit1s", "CP_limit2s", "CP_limit5s", "CP_limit10s", "CP_limit20s"]
 # This columns are for Guan and TBased formulations
 col_prefix2 = []
@@ -125,8 +126,9 @@ for f in files:
                     ffline.append(tmpline + ',' + str(float(tmparr[2])-float(tmparr[4])))
         else:
             ffline.append("NA,NA,NA")
-    lines.append(",".join(ffline))
+    lines.append(",".join(ffline).translate(string.maketrans("\r\n", "\0\0")).replace("\0", ""))
 
+print lines
 ftmp = open(path_out, "w")
-ftmp.writelines('\n'.join(lines))
+ftmp.writelines("\n".join(lines))
 ftmp.close()
