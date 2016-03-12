@@ -190,11 +190,11 @@ def get_builder_and_reader(formulation_type, problem_type):
 
     return fmap[get_key("builder")], fmap[get_key("reader")]
 
-def solve_and_save2(filename, outputfilename, formulation_type, problem_type):
+def solve_and_save2(filename, outputfilename, formulation_type, problem_type, timelimit=1800):
 
     builder, reader = get_builder_and_reader(formulation_type, problem_type)
     data = converters.fileconvert.load_data(filename)
-    schedule = formulations.cplex_mip.solve(data, builder, reader)
+    schedule = formulations.cplex_mip.solve(data, builder, reader, timelimit=timelimit)
 
     write_schedule(schedule, outputfilename)
 

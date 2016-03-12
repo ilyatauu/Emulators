@@ -8,6 +8,14 @@ def read(model, emulators_data):
     schedule_result.boards_number = emulators_data.boards_number
     jobs_info = []
 
+    if not schedule_result.feasible:
+        schedule_result.jobs_info = jobs_info
+        schedule_result.model_build_time = model.model_build_time
+        schedule_result.model_solution_time = model.solve_time
+        return schedule_result
+
+
+    total_penalty = 0
     for j in emulators_data.jobs_info:
         for m in range(emulators_data.boards_number):
             for t in range(model.max_time):
@@ -20,9 +28,11 @@ def read(model, emulators_data):
                     info.first_board = m
                     info.finish_board = info.first_board + j.size
                     info.tardiness = max(info.finish_time - j.duedate, 0)
+                    if info.finish_time > j.duedate:
+                        total_penalty += 1
                     jobs_info.append(info)
 
-    schedule_result.total_penalty = int(round(model.cplex_class.solution.get_objective_value()))
+    schedule_result.total_penalty = total_penalty
     schedule_result.objective_value = int(round(model.cplex_class.solution.get_objective_value()))
     schedule_result.jobs_info = jobs_info
     schedule_result.relative_gap = model.cplex_class.solution.MIP.get_mip_relative_gap()

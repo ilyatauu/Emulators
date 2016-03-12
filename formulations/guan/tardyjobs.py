@@ -2,6 +2,7 @@ import time
 from formulations import algorithms
 from formulations import structures
 
+
 def get_formulation(cplex_class, emulators_data):
     """ Get formulation for finding minimal number of tardy jobs problem
     :param cplex_class: class of type cplex.Cplex, to be populated by formulations
@@ -144,6 +145,7 @@ def get_formulation(cplex_class, emulators_data):
     formulation_model.model_build_time = end_preparation - start_preparation
 
     return formulation_model
+
 
 def add_decision_vars_constraints(formulation_model,  constraint_dict):
     cplex_class = formulation_model.cplex_class

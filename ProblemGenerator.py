@@ -97,7 +97,7 @@ if __name__ == "__main__":
     # machines_options = [4,6]
     #
     jobs_options = [25]
-    due_date_options = [200]
+    due_date_options = [100]
     machines_options = [20]
     process_time_options = [[16, 80]]
     arrival_time_options = [[0, 0]]

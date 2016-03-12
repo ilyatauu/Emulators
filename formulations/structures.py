@@ -11,6 +11,7 @@ class ScheduleResult(object):
         self.model_build_time = None
         self.model_solution_time = None
 
+
 class ScheduledJobInfo(object):
     def __init__(self):
         self.job_id = None
@@ -19,6 +20,8 @@ class ScheduledJobInfo(object):
         self.first_board = None
         self.finish_board = None
         self.tardiness = None
+        self.job = None
+
 
 class JobInfo(object):
     def __init__(self):
@@ -28,10 +31,12 @@ class JobInfo(object):
         self.size = None
         self.readytime = None
 
+
 class EmulatorsData(object):
     def __init__(self):
         self.jobs_info = []
         self.boards_number = None
+
 
 class FormulationModel(object):
     def __init__(self):
@@ -39,3 +44,11 @@ class FormulationModel(object):
         self.vars_map = None
         self.model_build_time = None
         self.solve_time = None
+
+
+class JobConstraints(object):
+    def __init__(self):
+        self.job_id = None
+        self.start_time = None
+        self.first_board = None
+        self.duedate = None

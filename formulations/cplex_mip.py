@@ -35,6 +35,7 @@ def get_formulation_builder(formulation_type, problem_type):
         import  tbasedw.tardyjobs
         return tbasedw.tardyjobs.get_formulation
 
+
 def get_results_reader(formulation_type):
     if formulation_type == "guan":
         import guan.results_reader
@@ -42,6 +43,7 @@ def get_results_reader(formulation_type):
     if formulation_type == "tbasedw":
         import tbasedw.results_reader
         return tbasedw.results_reader.read
+
 
 def solve(emulators_data, formulation_builder, results_reader, custom_builder_steps=[]):
     start_time = time.time()
@@ -63,7 +65,6 @@ def solve(emulators_data, formulation_builder, results_reader, custom_builder_st
     schedule.total_solve_time = end_time - start_time
 
     return schedule
-
 
 
 

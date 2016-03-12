@@ -20,6 +20,17 @@ def solve_combined(r, problem_file):
     if not os.path.exists(out_file):
         common.solve_and_save_guantbased_combined_round(problem_file, out_file, float(r))
 
+
+def solve_guan(problem_file, timelimit):
+    out_file = get_outfilename(problem_file, "guan_{}s".format(timelimit))
+    if not os.path.exists(out_file):
+        common.solve_and_save2(problem_file, out_file, "guan", "tardy_jobs", timelimit=timelimit)
+
+def solve_tbased(problem_file, timelimit):
+    out_file = get_outfilename(problem_file, "tbased_{}s".format(timelimit))
+    if not os.path.exists(out_file):
+        common.solve_and_save2(problem_file, out_file, "tbased", "tardy_jobs", timelimit=timelimit)
+
 def get_histogram(values):
     h = dict()
     for v in values:
@@ -36,20 +47,36 @@ def solve_path(path):
 
         print f
 
-        out_file = get_outfilename(f, "guan")
-        if not os.path.exists(out_file):
-            common.solve_and_save2(f, out_file, "guan", "tardy_jobs")
+        solve_guan(f, 1)
+        solve_guan(f, 2)
+        solve_guan(f, 5)
+        solve_guan(f, 10)
+        solve_guan(f, 20)
+        solve_guan(f, 50)
+        solve_guan(f, 100)
+        solve_guan(f, 200)
+        solve_guan(f, 400)
+        solve_guan(f, 800)
+        solve_guan(f, 1200)
 
-        out_file = get_outfilename(f, "tbased")
-        if not os.path.exists(out_file):
-            common.solve_and_save2(f, out_file, "tbasedw", "tardy_jobs")
+        # solve_tbased(f, 1)
+        # solve_tbased(f, 2)
+        # solve_tbased(f, 5)
+        # solve_tbased(f, 10)
+        # solve_tbased(f, 20)
+        # solve_tbased(f, 50)
+        # solve_tbased(f, 100)
+        # solve_tbased(f, 200)
+        # solve_tbased(f, 400)
+        # solve_tbased(f, 800)
+        # solve_tbased(f, 1200)
 
-        solve_combined(80, f)
-        solve_combined(40, f)
-        solve_combined(20, f)
-        solve_combined(10, f)
-        solve_combined(5, f)
-        solve_combined(3, f)
+        # solve_combined(80, f)
+        # solve_combined(40, f)
+        # solve_combined(20, f)
+        # solve_combined(10, f)
+        # solve_combined(5, f)
+        # solve_combined(3, f)
 
 def get_path_from_user():
     if len(sys.argv) < 2:
@@ -61,12 +88,12 @@ def get_path_from_user():
 
     if not os.path.isdir(userpath):
         print userpath + ", is not a directory, exit or enter directory name"
-        path = raw_input('> ')
+        userpath = raw_input('> ')
 
     return userpath
 
 # ************* Main Program ************************
-path = None
+# path = None
 # path = "C:\Users\izaides\PycharmProjects\Emulators\GeneratedProblems_201504152238"
 # path = "C:\Users\izaides\PycharmProjects\Emulators\TestIntegrability"
 # path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\SmallToMedium\ProblemsWithP60_80"
@@ -75,4 +102,4 @@ path = None
 # path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\SmallToMedium"
 
 
-solve_path(r"C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\MediumBigDuedate")
+solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big\ProblemsToAnalyzeRate")

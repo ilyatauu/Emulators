@@ -28,7 +28,7 @@ def serialize_as_strings(schedule_result):
 
         All other lines will contain the data in format:
         jobid, starttime, first_board, tardiness
-
+1
         if there is no solution, only one line with value -1 for the objective value will be
     """
 
