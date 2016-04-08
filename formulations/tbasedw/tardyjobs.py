@@ -193,11 +193,16 @@ def get_formulation(cplex_class, emulators_data, jobs_constraints=[]):
     # Xi,j,t variable
     variable_names = ['x{0},{1},{2}'.format(j, m, t)
                       for j in jobs for m in range(machines) for t in range(max_time)]
-    variable_obj = [big_number * min(1, max((t + processtimes[j]) - duedates[j], 0)) +
-                    m + t +
-                    max(0, t + processtimes[j] - duedates[j])
+    # variable_obj = [big_number * min(1, max((t + processtimes[j]) - duedates[j], 0)) +
+    #                 m + t +
+    #                 max(0, t + processtimes[j] - duedates[j])
+    #                 for j in jobs for m in range(machines) for t
+    #                 in range(max_time)]
+
+    variable_obj = [min(1, max((t + processtimes[j]) - duedates[j], 0))
                     for j in jobs for m in range(machines) for t
                     in range(max_time)]
+
     cplex_class.variables.add(obj=variable_obj, types="B" * len(variable_names), names=variable_names)
     vars_map.update(
         [('x{0},{1},{2}'.format(j, m, t), cplex_class.variables.get_indices('x{0},{1},{2}'.format(j, m, t))) for j

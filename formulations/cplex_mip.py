@@ -32,22 +32,28 @@ def get_formulation_builder(formulation_type, problem_type):
         import guan.tardyjobs
         return guan.tardyjobs.get_formulation
     elif formulation_type == "tbasedw" and problem_type == "tardy_jobs":
-        import  tbasedw.tardyjobs
+        import tbasedw.tardyjobs
         return tbasedw.tardyjobs.get_formulation
+    elif formulation_type == "tbasedu" and problem_type == "tardy_jobs":
+        import tbasedu.tardyjobs
+        return tbasedu.tardyjobs.get_formulation
 
 
 def get_results_reader(formulation_type):
     if formulation_type == "guan":
         import guan.results_reader
         return guan.results_reader.read
-    if formulation_type == "tbasedw":
+    elif formulation_type == "tbasedw":
         import tbasedw.results_reader
         return tbasedw.results_reader.read
+    elif formulation_type == "tbasedu":
+        import tbasedu.results_reader
+        return tbasedu.results_reader.read
 
 
-def solve(emulators_data, formulation_builder, results_reader, custom_builder_steps=[]):
+def solve(emulators_data, formulation_builder, results_reader, timelimit=1800, custom_builder_steps=[]):
     start_time = time.time()
-    cplex_class = get_cplex_class()
+    cplex_class = get_cplex_class(timelimit=timelimit)
     formulation_model = formulation_builder(cplex_class, emulators_data)
 
     for step in custom_builder_steps:
