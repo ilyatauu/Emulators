@@ -1,6 +1,6 @@
 import random
 import os
-import time
+import math
 
 
 # def generate_job(due_date, process_time, arrival_time, job_size):
@@ -11,11 +11,19 @@ import time
 #
 #         return [pi, di, si, ai]
 
-def generate_job(due_date, process_time, arrival_time, job_size):
+# def generate_job(due_date, process_time, arrival_time, job_size):
+#         pi = random.randint(process_time[0], process_time[1])
+#         si = random.randint(job_size[0], job_size[1])
+#         ai = random.randint(arrival_time[0], arrival_time[1])
+#         di = random.randint(ai+pi, ai + pi + due_date)
+#
+#         return [pi, di, si, ai]
+
+def generate_job(process_time, arrival_time, machines):
         pi = random.randint(process_time[0], process_time[1])
-        si = random.randint(job_size[0], job_size[1])
+        si = random.randint(1, max(1, int(machines * 0.5)))
         ai = random.randint(arrival_time[0], arrival_time[1])
-        di = random.randint(ai+pi, due_date+pi)
+        di = random.randint(ai+pi, ai+pi+int(1.0*pi))
 
         return [pi, di, si, ai]
 
@@ -24,7 +32,8 @@ def generate_problem(machines, jobs, due_date, process_time, arrival_time, job_s
     problem_input = [[machines]]
 
     for i in range(0, jobs):
-        problem_input.append([i] + generate_job(due_date, process_time, arrival_time, job_size))
+        # problem_input.append([i] + generate_job(due_date, process_time, arrival_time, job_size))
+        problem_input.append([i] + generate_job(process_time, arrival_time, machines))
 
     return problem_input
 
@@ -96,16 +105,17 @@ if __name__ == "__main__":
     # due_date_options = [10,20]
     # machines_options = [4,6]
     #
-    jobs_options = [25]
+    jobs_options = [10]
     due_date_options = [100]
-    machines_options = [20]
-    process_time_options = [[16, 80]]
+    machines_options = [15, 25]
+    process_time_options = [[1, 5], [2, 10], [4, 20], [8, 40], [16, 80]]
     arrival_time_options = [[0, 0]]
-    size_options = [[1, 10]]
+    size_options = [[1, 12]]
 
-    tests_per_combination = 10
+    tests_per_combination = 5
 
-    problems_dir = ".\GeneratedProblems_" + time.strftime("%Y%m%d%H%M")
+    # problems_dir = ".\GeneratedProblems_" + time.strftime("%Y%m%d%H%M")
+    problems_dir = r"D:\Ilyaz\PycharmProjects\Emulators\GeneratedProblemsTest"
 
     if not os.path.exists(problems_dir):
         os.mkdir(problems_dir)

@@ -52,3 +52,4 @@ class JobConstraints(object):
         self.start_time = None
         self.first_board = None
         self.duedate = None
+

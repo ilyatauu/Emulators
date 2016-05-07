@@ -69,26 +69,26 @@ def solve_path(path):
         # if "m15j30" in f:
         #     continue
 
-        solve_and_save(f, cp_dir + "_1s", 1)
-        solve_and_save(f, cp_dir + "_2s", 1)
-        solve_and_save(f, cp_dir + "_5s", 5)
-        solve_and_save(f, cp_dir + "_10s", 10)
-        solve_and_save(f, cp_dir + "_20s", 20)
-        solve_and_save(f, cp_dir + "_50s", 50)
-        solve_and_save(f, cp_dir + "_100s", 100)
-        solve_and_save(f, cp_dir + "_200s", 200)
-        solve_and_save(f, cp_dir + "_400s", 400)
-        solve_and_save(f, cp_dir + "_800s", 800)
-        solve_and_save(f, cp_dir + "_1200s", 1200)
-        solve_and_save(f, cp_dir + "_1800s", 1800)
-
+        # solve_and_save(f, cp_dir + "_1s", 1)
+        # solve_and_save(f, cp_dir + "_2s", 1)
+        # solve_and_save(f, cp_dir + "_5s", 5)
+        # solve_and_save(f, cp_dir + "_10s", 10)
+        # solve_and_save(f, cp_dir + "_20s", 20)
+        # solve_and_save(f, cp_dir + "_50s", 50)
+        # solve_and_save(f, cp_dir + "_100s", 100)
+        # solve_and_save(f, cp_dir + "_200s", 200)
+        # solve_and_save(f, cp_dir + "_400s", 400)
+        # solve_and_save(f, cp_dir + "_800s", 800)
+        # solve_and_save(f, cp_dir + "_1200s", 1200)
+        # solve_and_save(f, cp_dir + "_1800s", 1800)
+        solve_and_save(f,cp_dir+"_40s", 40)
 
 
 # ************* Main Program ************************
 
 
-
-pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big\ProblemsToAnalyzeRate"]
+pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\GeneratedProblemsTest"]
+# pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big"]
 
 for p in pathes:
     solve_path(p)

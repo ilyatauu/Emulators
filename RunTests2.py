@@ -29,7 +29,13 @@ def solve_guan(problem_file, timelimit):
 def solve_tbased(problem_file, timelimit):
     out_file = get_outfilename(problem_file, "tbased_{}s".format(timelimit))
     if not os.path.exists(out_file):
-        common.solve_and_save2(problem_file, out_file, "tbased", "tardy_jobs", timelimit=timelimit)
+        common.solve_and_save2(problem_file, out_file, "tbasedw", "tardy_jobs", timelimit=timelimit)
+
+def solve_tbasedu(problem_file, timelimit=1800):
+    out_file = get_outfilename(problem_file, "tbased_{}s".format(timelimit))
+    if not os.path.exists(out_file):
+        common.solve_and_save2(problem_file, out_file, "tbasedu", "tardy_jobs", timelimit=timelimit)
+
 
 def get_histogram(values):
     h = dict()
@@ -45,26 +51,26 @@ def solve_path(path):
         if filename.startswith("results") or "p60" in filename:
             continue
 
-        print f
 
-        solve_guan(f, 1)
-        solve_guan(f, 2)
-        solve_guan(f, 5)
-        solve_guan(f, 10)
-        solve_guan(f, 20)
-        solve_guan(f, 50)
-        solve_guan(f, 100)
-        solve_guan(f, 200)
-        solve_guan(f, 400)
-        solve_guan(f, 800)
-        solve_guan(f, 1200)
+        # solve_guan(f, 1)
+        # solve_guan(f, 2)
+        # solve_guan(f, 5)
+        # solve_guan(f, 10)
+        # solve_guan(f, 20)
+        # solve_guan(f, 50)
+        # solve_guan(f, 100)
+        # solve_guan(f, 200)
+        # solve_guan(f, 400)
+        # solve_guan(f, 800)
+        # solve_guan(f, 1200)
+        solve_guan(f, 1800)
 
         # solve_tbased(f, 1)
         # solve_tbased(f, 2)
         # solve_tbased(f, 5)
         # solve_tbased(f, 10)
         # solve_tbased(f, 20)
-        # solve_tbased(f, 50)
+        # solve_tbased(f, 40)
         # solve_tbased(f, 100)
         # solve_tbased(f, 200)
         # solve_tbased(f, 400)
@@ -101,5 +107,9 @@ def get_path_from_user():
 # path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big"
 # path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\SmallToMedium"
 
-
-solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big\ProblemsToAnalyzeRate")
+solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet")
+# solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\GeneratedProblems_201604231243")
+# solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\SmallToMedium\ProblemsWithP60_80")
+# solve_path("D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\SmallToMedium")
+# solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big")
+# solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big\SmallProcessTime")

@@ -204,8 +204,8 @@ class EmulatorsCpSolver(object):
     dexpr int total_start_time = sum(j in jobs) (startOf(tijobs[j]));
     dexpr int total_start_board = sum(a in Alternatives2) presenceOf(tialts[a]) * a.smachine;
     dexpr int total_penalty = sum(j in jobs) U[j];
-    dexpr int objValue = 10000000 * total_penalty + total_start_time + total_start_board;
-
+    // dexpr int objValue = 10000000 * total_penalty + total_start_time + total_start_board;
+    dexpr int objValue = total_penalty;
 
     execute {
       var p = cp.param;

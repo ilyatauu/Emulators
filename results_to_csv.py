@@ -35,16 +35,21 @@ def parse_out_filename(filename):
 
     return [m, j, d, p, i, l]
 
-if len(sys.argv) < 2:
-    print 'Please enter directory with problems data'
-    # Raw_input is used to collect data from the user
-    base_path = raw_input('> ')    
-else:
-    base_path = sys.argv[0]
 
-if os.path.isdir(base_path) is False:
-    print base_path + ", is not a directory, exit or enter directory name"
-    base_path = raw_input('> ')
+# base_path = r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big\SmallProcessTime"
+# base_path = r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big"
+# base_path = r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\SmallToMedium\ProblemsWithP60_80"
+base_path = r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet"
+# if len(sys.argv) < 2:
+#     print 'Please enter directory with problems data'
+#     # Raw_input is used to collect data from the user
+#     base_path = raw_input('> ')
+# else:
+#     base_path = sys.argv[0]
+#
+# if os.path.isdir(base_path) is False:
+#     print base_path + ", is not a directory, exit or enter directory name"
+#     base_path = raw_input('> ')
 
 
 # dir_list = ["RPFGuan_Penalty_bounded","Layout_Penalty_bounded","TBased_Penalty_bounded",
@@ -62,8 +67,13 @@ if os.path.isdir(base_path) is False:
 # dir_list = ["cfp5_1"]
 # dir_list = ["cfp10", "cfp8", "cfp5", "cfp3"]
 # dir_list = [x+repr(y) for x in ["cfp", "cnfp", "crnd"] for y in [80, 40, 20, 10, 5, 3]]
-dir_list = ["CP_1s", "CP_2s", "CP_3s", "CP_5s", "CP_10s", "CP_20s"]
+# dir_list = ["CP_1s", "CP_2s", "CP_3s", "CP_5s", "CP_10s", "CP_20s","CP_40s"]
+# dir_list = ["tbased_1s", "tbased_2s", "tbased_5s", "tbased_10s", "tbased_20s","tbased_40s"]
 # dir_list = ["Guan", "TBased2", "CP_limit1s", "CP_limit2s", "CP_limit5s", "CP_limit10s", "CP_limit20s"]
+dir_list = ["tbasedu_1800s", "guan_1800s"]
+
+path_out = os.path.join(base_path, "results_tbasedu_guan.csv")
+
 # This columns are for Guan and TBased formulations
 col_prefix2 = []
 
@@ -86,8 +96,6 @@ for dd in dir_list:
 # rpfguan_results_path= os.path.join(base_path,"RPFGuan_Penalty_bounded")
 # layout_results_path = os.path.join(base_path,"Layout_Penalty_bounded")
 # tbased_results_path = os.path.join(base_path,"TBased_Penalty_bounded")
-
-path_out = os.path.join(base_path, "results.csv")
 
 # first_line = "file,guan_solution,guan_optimal,guan_time,heragu_solution,
 # heragu_optimal,heragu_time,our_solution,our_optimal,our_time"
