@@ -80,14 +80,15 @@ def solve_path(path):
         # solve_and_save(f, cp_dir + "_400s", 400)
         # solve_and_save(f, cp_dir + "_800s", 800)
         # solve_and_save(f, cp_dir + "_1200s", 1200)
-        # solve_and_save(f, cp_dir + "_1800s", 1800)
-        solve_and_save(f,cp_dir+"_40s", 40)
+        solve_and_save(f, cp_dir + "_1800s", 1800)
+        # solve_and_save(f,cp_dir+"_40s", 40)
 
 
 # ************* Main Program ************************
 
 
-pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\GeneratedProblemsTest"]
+# pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\GeneratedProblemsTest"]
+pathes = ["C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\NewSet"]
 # pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big"]
 
 for p in pathes:
