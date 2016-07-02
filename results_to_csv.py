@@ -39,7 +39,8 @@ def parse_out_filename(filename):
 # base_path = r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big\SmallProcessTime"
 # base_path = r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big"
 # base_path = r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\SmallToMedium\ProblemsWithP60_80"
-base_path = r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet"
+# base_path = r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet"
+base_path = r"C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\NewSet\DualObjective"
 # if len(sys.argv) < 2:
 #     print 'Please enter directory with problems data'
 #     # Raw_input is used to collect data from the user
@@ -70,16 +71,25 @@ base_path = r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet"
 # dir_list = ["CP_1s", "CP_2s", "CP_3s", "CP_5s", "CP_10s", "CP_20s","CP_40s"]
 # dir_list = ["tbased_1s", "tbased_2s", "tbased_5s", "tbased_10s", "tbased_20s","tbased_40s"]
 # dir_list = ["Guan", "TBased2", "CP_limit1s", "CP_limit2s", "CP_limit5s", "CP_limit10s", "CP_limit20s"]
-dir_list = ["tbasedu_1800s", "guan_1800s"]
+# dir_list = ["tbasedu_1800s", "guan_1800s"]
+# dir_list = ["CP_1s","CP_2s","CP_5s", "CP_10s","CP_20s","CP_50s","CP_100s","CP_1800s"]
+dir_list_guan = ["guan_{}s".format(x) for x in [1800]]
+dir_list_tbased = ["tbased_{}s".format(x) for x in [1800]]
+dir_list_cp = ["cp_{}s".format(x) for x in [1800]]
 
-path_out = os.path.join(base_path, "results_tbasedu_guan.csv")
+            # ["tbased_{}s".format(x) for x in [1, 5, 10, 20, 50, 100, 1800]]
+           # ["cp_{}s".format(x) for x in [1, 5, 10, 20, 50, 100, 1800]] + \
+dir_list = dir_list_tbased + dir_list_guan + dir_list_cp
+
+path_out = os.path.join(base_path, "results_dual.csv")
+
 
 # This columns are for Guan and TBased formulations
 col_prefix2 = []
 
 
 for dd in dir_list:
-    if dd.startswith("CP"):
+    if dd.lower().startswith("cp"):
         col_prefix2 = col_prefix2 + [dd.lower() + x
                                      for x in ["_solution", "_optimal", "_time"]]
     else:
@@ -117,13 +127,14 @@ for f in files:
     ffline = [f]
     params = parse_problem_filename(f)
     ffline = ffline + params
+    skip_file = False
     for d in dir_list:
         ff = os.path.join(base_path, d, f)
         if os.path.exists(ff):
             ez = open(ff)
             tmpline = ez.readline().replace("\n", "")
             if tmpline.split(",")[0] == "-1":
-                ffline.append("NA,NA," + tmpline.split(",")[2])
+                ffline.append("NA,NA," + tmpline.split(",")[2] + ",NA,NA,NA,NA")
             elif len(tmpline.split(",")) == 3:
                 ffline.append(tmpline)
             else:
@@ -133,10 +144,36 @@ for f in files:
                 else:
                     ffline.append(tmpline + ',' + str(float(tmparr[2])-float(tmparr[4])))
         else:
-            ffline.append("NA,NA,NA")
-    lines.append(",".join(ffline).translate(string.maketrans("\r\n", "\0\0")).replace("\0", ""))
+            # ffline.append("NA,NA,NA")
+            skip_file = True
+    if not skip_file:
+        lines.append(",".join(ffline).translate(string.maketrans("\r\n", "\0\0")).replace("\0", ""))
 
-print lines
+# filter out legacy headers
+filterout_indexes = set()
+headers = lines[0].split(",")
+for i in range(len(headers)):
+    if ((headers[i].endswith("_time") and not headers[i].endswith("_solution_time"))
+        or headers[i].endswith("gap") or headers[i].endswith("build_time")
+        or headers[i].endswith("model_time")
+        # or headers[i].endswith("_time")
+        # or headers[i].endswith("optimal")
+       ):
+
+        filterout_indexes.add(i)
+
+filtered_lines = []
+for l in lines:
+    splitted = l.split(",")
+    new_line = ""
+    for i in range(len(splitted)):
+        if i not in filterout_indexes:
+            new_line += "," + splitted[i]
+    new_line = new_line[1:]
+    filtered_lines.append(new_line)
+
+print filtered_lines
 ftmp = open(path_out, "w")
-ftmp.writelines("\n".join(lines))
+ftmp.writelines("\n".join(filtered_lines))
 ftmp.close()
+

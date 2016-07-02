@@ -31,10 +31,17 @@ def solve_tbased(problem_file, timelimit):
     if not os.path.exists(out_file):
         common.solve_and_save2(problem_file, out_file, "tbasedw", "tardy_jobs", timelimit=timelimit)
 
+
 def solve_tbasedu(problem_file, timelimit=1800):
     out_file = get_outfilename(problem_file, "tbased_{}s".format(timelimit))
     if not os.path.exists(out_file):
         common.solve_and_save2(problem_file, out_file, "tbasedu", "tardy_jobs", timelimit=timelimit)
+
+def solve_tbased_total(problem_file, timelimit=1800):
+    out_file = get_outfilename(problem_file, "tbased_{}s".format(timelimit))
+    if not os.path.exists(out_file):
+        common.solve_and_save_tbasedwtotal(problem_file, out_file, timelimit)
+
 
 
 def get_histogram(values):
@@ -63,7 +70,7 @@ def solve_path(path):
         # solve_guan(f, 400)
         # solve_guan(f, 800)
         # solve_guan(f, 1200)
-        solve_guan(f, 1800)
+        # solve_guan(f, 1800)
 
         # solve_tbased(f, 1)
         # solve_tbased(f, 2)
@@ -83,6 +90,8 @@ def solve_path(path):
         # solve_combined(10, f)
         # solve_combined(5, f)
         # solve_combined(3, f)
+
+        solve_tbased_total(f, 1800)
 
 def get_path_from_user():
     if len(sys.argv) < 2:
@@ -105,9 +114,9 @@ def get_path_from_user():
 # path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\SmallToMedium\ProblemsWithP60_80"
 # path = "C:\Users\izaides\PycharmProjects\Emulators\Problems_P80_MSize5"
 # path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big"
-# path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\SmallToMedium"
+path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\NewSet\DualObjective"
 
-solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet")
+# solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet")
 # solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\GeneratedProblems_201604231243")
 # solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\SmallToMedium\ProblemsWithP60_80")
 # solve_path("D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\SmallToMedium")

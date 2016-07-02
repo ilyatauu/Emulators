@@ -69,6 +69,9 @@ def solve_path(path):
         # if "m15j30" in f:
         #     continue
 
+        # if "m15" not in f:
+        #     continue
+
         # solve_and_save(f, cp_dir + "_1s", 1)
         # solve_and_save(f, cp_dir + "_2s", 1)
         # solve_and_save(f, cp_dir + "_5s", 5)
