@@ -66,7 +66,8 @@ class EmulatorsCpSolver(object):
     dexpr int total_tardiness = sum(j in jobs) maxl(0,endOf(tijobs[j]) - j.duedate);
 
 	// Objective value
-    dexpr int objValue = 10000000 * total_penalty + total_tardiness + total_start_time + total_start_board;
+    dexpr int objValue = 10000 * total_penalty + total_tardiness;
+    //+ total_start_time + total_start_board;
 
     execute {
       var p = cp.param;

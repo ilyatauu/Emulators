@@ -37,6 +37,7 @@ def solve_and_save(fullfilename, cp_dir, seconds_limit):
     solver.total_penalty_lower_bound = None
     solver.time_limit = seconds_limit
     result = solver.solve_penalty_only(problem_data[0],problem_data[1])
+    # result = solver.solve(problem_data[0],problem_data[1])
     print "Objective value: " + `result.objective_value`
 
     file_out = os.path.join(cp_dir, filename + ".out")
@@ -58,12 +59,14 @@ def solve_and_save(fullfilename, cp_dir, seconds_limit):
     outf.close()
 
 def solve_path(path):
-    data_files = sorted([os.path.join(path, x) for x in os.listdir(path) if os.path.splitext(x)[1] == ".csv"])
+    data_files = sorted([os.path.join(path, x) for x in os.listdir(path) if os.path.splitext(x)[1] == ".csv"
+                         and not x.startswith("result")])
     cp_dir = os.path.join(path, "CP")
     if not os.path.exists(cp_dir):
         os.mkdir(cp_dir)
 
     for f in data_files:
+        pass
         # filename = os.path.basename(f)
 
         # if "m15j30" in f:
@@ -80,16 +83,43 @@ def solve_path(path):
         # solve_and_save(f, cp_dir + "_400s", 400)
         # solve_and_save(f, cp_dir + "_800s", 800)
         # solve_and_save(f, cp_dir + "_1200s", 1200)
-        solve_and_save(f, cp_dir + "_1800s", 1800)
+        # solve_and_save(f, cp_dir + "_1800s", 1800)
         # solve_and_save(f,cp_dir+"_40s", 40)
+    for f in data_files:
+        solve_and_save(f, cp_dir + "_1s", 1)
 
+    for f in data_files:
+        solve_and_save(f, cp_dir + "_5s", 5)
+
+    for f in data_files:
+        solve_and_save(f, cp_dir + "_10s", 10)
+
+    for f in data_files:
+        solve_and_save(f, cp_dir + "_20s", 20)
+
+    for f in data_files:
+        solve_and_save(f, cp_dir + "_50s", 50)
+
+    for f in data_files:
+        solve_and_save(f, cp_dir + "_0s", 100)
+    # for f in data_files:
+    #     solve_and_save(f, cp_dir + "_400s", 400)
+
+    # for f in data_files:
+    #     solve_and_save(f, cp_dir + "_800s", 800)
+
+    # for f in data_files:
+    #     solve_and_save(f, cp_dir + "_1800s", 1800)
 
 # ************* Main Program ************************
 
 
 # pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\GeneratedProblemsTest"]
-pathes = ["C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\NewSet"]
+# pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet"]
+# pathes = ["C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\NewSet"]
 # pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big"]
+# pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet\DualObjective"]
+pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet\DualObjective"]
 
 for p in pathes:
     solve_path(p)

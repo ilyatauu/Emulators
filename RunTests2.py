@@ -31,6 +31,11 @@ def solve_tbased(problem_file, timelimit):
     if not os.path.exists(out_file):
         common.solve_and_save2(problem_file, out_file, "tbasedw", "tardy_jobs", timelimit=timelimit)
 
+def solve_tbased_dual(problem_file, timelimit):
+    out_file = get_outfilename(problem_file, "tbased_{}s".format(timelimit))
+    if not os.path.exists(out_file):
+        common.solve_and_save2(problem_file, out_file, "tbasedw", "tardy_jobs", timelimit=timelimit)
+
 def solve_tbasedu(problem_file, timelimit=1800):
     out_file = get_outfilename(problem_file, "tbased_{}s".format(timelimit))
     if not os.path.exists(out_file):
@@ -76,6 +81,7 @@ def solve_path(path):
         # solve_tbased(f, 400)
         # solve_tbased(f, 800)
         # solve_tbased(f, 1200)
+        solve_tbased(f, 1800)
 
         # solve_combined(80, f)
         # solve_combined(40, f)
@@ -107,7 +113,7 @@ def get_path_from_user():
 # path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big"
 # path = "C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\SmallToMedium"
 
-solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet")
+solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet\DualObjective")
 # solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\GeneratedProblems_201604231243")
 # solve_path(r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\SmallToMedium\ProblemsWithP60_80")
 # solve_path("D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\SmallToMedium")
