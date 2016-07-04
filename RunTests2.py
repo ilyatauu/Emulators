@@ -41,6 +41,10 @@ def solve_tbasedu(problem_file, timelimit=1800):
     if not os.path.exists(out_file):
         common.solve_and_save2(problem_file, out_file, "tbasedu", "tardy_jobs", timelimit=timelimit)
 
+def solve_tbased_total(problem_file, timelimit=1800):
+    out_file = get_outfilename(problem_file, "tbased_{}s".format(timelimit))
+    if not os.path.exists(out_file):
+        common.solve_and_save_tbasedwtotal(problem_file, out_file, timelimit)
 
 def get_histogram(values):
     h = dict()
@@ -68,7 +72,7 @@ def solve_path(path):
         # solve_guan(f, 400)
         # solve_guan(f, 800)
         # solve_guan(f, 1200)
-        solve_guan(f, 1800)
+        # solve_guan(f, 1800)
 
         # solve_tbased(f, 1)
         # solve_tbased(f, 2)
@@ -81,7 +85,6 @@ def solve_path(path):
         # solve_tbased(f, 400)
         # solve_tbased(f, 800)
         # solve_tbased(f, 1200)
-        solve_tbased(f, 1800)
 
         # solve_combined(80, f)
         # solve_combined(40, f)
@@ -89,6 +92,8 @@ def solve_path(path):
         # solve_combined(10, f)
         # solve_combined(5, f)
         # solve_combined(3, f)
+
+        solve_tbased_total(f, 1800)
 
 def get_path_from_user():
     if len(sys.argv) < 2:

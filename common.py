@@ -205,6 +205,18 @@ def solve_and_save_withdivide(filename, outputfilename, formulation_type, proble
     schedule1 = formulations.cplex_mip.solve(new_data, builder, reader)
     write_schedule(schedule1, outputfilename)
 
+def solve_and_save_tbasedwtotal(filename, outputfilename, timelimit=1800):
+    import formulations.tbasedw.tardyjobs
+    import formulations.tbasedw.results_reader
+    builder = formulations.tbasedw.tardyjobs.get_formulation_totaltardiness
+    reader = formulations.tbasedw.results_reader.read
+
+    data = converters.fileconvert.load_data(filename)
+    schedule = formulations.cplex_mip.solve(data, builder, reader, timelimit=timelimit)
+
+    write_schedule(schedule, outputfilename)
+
+
 def solve_and_save_guantbased_combined(filename, outputfilename, divider, dataconverter):
 
     builder, reader = get_builder_and_reader("tbasedw", "tardy_jobs")
