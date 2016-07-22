@@ -59,8 +59,9 @@ def solve_and_save(fullfilename, cp_dir, seconds_limit):
     outf.close()
 
 def solve_path(path):
-    data_files = sorted([os.path.join(path, x) for x in os.listdir(path) if os.path.splitext(x)[1] == ".csv"
-                         and not x.startswith("result")])
+    data_files = sorted([os.path.join(path, x) for x in os.listdir(path) if os.path.splitext(x)[1] == ".csv" and
+                         not x.startswith("result")])
+
     cp_dir = os.path.join(path, "CP")
     if not os.path.exists(cp_dir):
         os.mkdir(cp_dir)

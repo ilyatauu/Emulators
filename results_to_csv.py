@@ -40,7 +40,8 @@ def parse_out_filename(filename):
 # base_path = r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big"
 # base_path = r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\SmallToMedium\ProblemsWithP60_80"
 # base_path = r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet"
-base_path = r"C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\NewSet\DualObjective"
+# base_path = r"C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\NewSet\DualObjective"
+base_path = r"C:\Users\izaides\Documents\PycharmProjects\Emulators\Problem Sets\NewSet"
 # if len(sys.argv) < 2:
 #     print 'Please enter directory with problems data'
 #     # Raw_input is used to collect data from the user
@@ -73,15 +74,16 @@ base_path = r"C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\NewSet\Dua
 # dir_list = ["Guan", "TBased2", "CP_limit1s", "CP_limit2s", "CP_limit5s", "CP_limit10s", "CP_limit20s"]
 # dir_list = ["tbasedu_1800s", "guan_1800s"]
 # dir_list = ["CP_1s","CP_2s","CP_5s", "CP_10s","CP_20s","CP_50s","CP_100s","CP_1800s"]
-dir_list_guan = ["guan_{}s".format(x) for x in [1800]]
-dir_list_tbased = ["tbased_{}s".format(x) for x in [1800]]
-dir_list_cp = ["cp_{}s".format(x) for x in [1800]]
+dir_list_guan = ["guan_{}s".format(x) for x in [1, 5, 10, 20, 50, 100, 200, 400, 800, 1800]]
+dir_list_tbased = ["tbased_{}s".format(x) for x in [1, 5, 10, 20, 50, 100, 200, 400, 800, 1800]]
+dir_list_cp = ["cp_{}s".format(x) for x in [1, 5, 10, 20, 50, 100, 200, 400, 800, 1800]]
 
             # ["tbased_{}s".format(x) for x in [1, 5, 10, 20, 50, 100, 1800]]
            # ["cp_{}s".format(x) for x in [1, 5, 10, 20, 50, 100, 1800]] + \
 dir_list = dir_list_tbased + dir_list_guan + dir_list_cp
+# dir_list = dir_list_cp
 
-path_out = os.path.join(base_path, "results_dual.csv")
+path_out = os.path.join(base_path, "results_steps20160720.csv")
 
 
 # This columns are for Guan and TBased formulations
@@ -128,7 +130,9 @@ for f in files:
     params = parse_problem_filename(f)
     ffline = ffline + params
     skip_file = False
+    print f
     for d in dir_list:
+        print d
         ff = os.path.join(base_path, d, f)
         if os.path.exists(ff):
             ez = open(ff)
