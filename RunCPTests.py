@@ -89,31 +89,31 @@ def solve_path(path):
         # solve_and_save(f, cp_dir + "_1200s", 1200)
         # solve_and_save(f, cp_dir + "_1800s", 1800)
         # solve_and_save(f,cp_dir+"_40s", 40)
-    for f in data_files:
-        solve_and_save(f, cp_dir + "_1s", 1)
-
-    for f in data_files:
-        solve_and_save(f, cp_dir + "_5s", 5)
-
-    for f in data_files:
-        solve_and_save(f, cp_dir + "_10s", 10)
-
-    for f in data_files:
-        solve_and_save(f, cp_dir + "_20s", 20)
-
-    for f in data_files:
-        solve_and_save(f, cp_dir + "_50s", 50)
-
-    for f in data_files:
-        solve_and_save(f, cp_dir + "_0s", 100)
+    # for f in data_files:
+    #     solve_and_save(f, cp_dir + "_1s", 1)
+    #
+    # for f in data_files:
+    #     solve_and_save(f, cp_dir + "_5s", 5)
+    #
+    # for f in data_files:
+    #     solve_and_save(f, cp_dir + "_10s", 10)
+    #
+    # for f in data_files:
+    #     solve_and_save(f, cp_dir + "_20s", 20)
+    #
+    # for f in data_files:
+    #     solve_and_save(f, cp_dir + "_50s", 50)
+    #
+    # for f in data_files:
+    #     solve_and_save(f, cp_dir + "_100s", 100)
     # for f in data_files:
     #     solve_and_save(f, cp_dir + "_400s", 400)
 
     # for f in data_files:
     #     solve_and_save(f, cp_dir + "_800s", 800)
 
-    # for f in data_files:
-    #     solve_and_save(f, cp_dir + "_1800s", 1800)
+    for f in data_files:
+        solve_and_save(f, cp_dir + "_1800s", 1800)
 
 # ************* Main Program ************************
 
@@ -123,8 +123,8 @@ def solve_path(path):
 # pathes = ["C:\Users\izaides\PycharmProjects\Emulators\Problem Sets\NewSet"]
 # pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\BigProblems\GeneratedProblems_Big"]
 # pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet\DualObjective"]
-pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet\DualObjective"]
-
+# pathes = [r"D:\Ilyaz\PycharmProjects\Emulators\Problem Sets\NewSet\DualObjective"]
+pathes = [r"C:\Users\izaides\Documents\PycharmProjects\Emulators\Problem Sets\NewSet\DualObjective"]
 for p in pathes:
     solve_path(p)
 
