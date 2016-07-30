@@ -3,13 +3,16 @@ from formulations import algorithms
 from formulations import structures
 
 
-def get_formulation(cplex_class, emulators_data):
+
+
+
+def get_formulation(cplex_class, emulators_data, criteria_type=structures.CriteriaType.TardyJobs):
     """ Get formulation for finding minimal number of tardy jobs problem
     :param cplex_class: class of type cplex.Cplex, to be populated by formulations
     :param emulators_data: emulators data problem
+    :param criteria_type: type of criteria to solve
     :return: A formulation model object.
     """
-
     print "start preparation"
     formulation_model = structures.FormulationModel()
     start_preparation = time.time()
@@ -29,6 +32,9 @@ def get_formulation(cplex_class, emulators_data):
 
     # defined constants
     penalty_weight = 1
+    if criteria_type == structures.CriteriaType.TardyJobsAndTotalTardiness:
+        penalty_weight = 1000000
+
     # tardiness_weight = EmulatorsCplexSolverRPFGuan.tardiness_weight
 
     cplex_solver = cplex_class
@@ -78,6 +84,13 @@ def get_formulation(cplex_class, emulators_data):
                                names=variable_names)
     vars_map.update([('U{0}'.format(j), cplex_solver.variables.get_indices('U{0}'.format(j))) for j in jobs])
 
+    # Job tardiness variable
+    if criteria_type == structures.CriteriaType.TardyJobsAndTotalTardiness:
+        variable_names = ['T{0}'.format(j) for j in jobs]
+        cplex_solver.variables.add(obj=[1]*len(variable_names), types="C"*len(variable_names),
+                                   names=variable_names)
+        vars_map.update([('T{0}'.format(j), cplex_solver.variables.get_indices('T{0}'.format(j))) for j in jobs])
+
     # ############ Add Constraints  ##################################
     print "Adding constraints ... "
 
@@ -125,6 +138,10 @@ def get_formulation(cplex_class, emulators_data):
     cplex_solver.linear_constraints.add(lin_expr=constraints, senses="G" * len(constraints),
                                         rhs=[-1 * duedates[j] for j in jobs], names=["Up" + repr(j) for j in jobs])
 
+    if criteria_type == structures.CriteriaType.TardyJobsAndTotalTardiness:
+        constraints = [[[vars_map['T' + repr(j)], vars_map['c' + repr(j)]], [1, -1]] for j in jobs]
+        cplex_solver.linear_constraints.add(lin_expr=constraints, senses="G" * len(constraints),
+                                            rhs=[-1 * duedates[j] for j in jobs], names=["Tp" + repr(j) for j in jobs])
     # add penalty lower bound if exists
     if hasattr(emulators_data,"total_penalty_lower_bound") and emulators_data.total_penalty_lower_bound is not None:
         lbconstraint = [[[vars_map['U' + repr(j)] for j in jobs], [1] * len(jobs)]]
@@ -146,6 +163,8 @@ def get_formulation(cplex_class, emulators_data):
 
     return formulation_model
 
+def get_formulation_total(cplex_class, emulators_data,criteria_type=structures.CriteriaType.TardyJobsAndTotalTardiness):
+    return get_formulation(cplex_class, emulators_data, criteria_type)
 
 def add_decision_vars_constraints(formulation_model,  constraint_dict):
     cplex_class = formulation_model.cplex_class

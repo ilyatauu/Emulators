@@ -53,3 +53,7 @@ class JobConstraints(object):
         self.first_board = None
         self.duedate = None
 
+
+class CriteriaType(object):
+    TardyJobs = "tardy_jobs"
+    TardyJobsAndTotalTardiness = "tardy_jobs_and_total_tardiness"

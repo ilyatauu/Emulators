@@ -216,6 +216,16 @@ def solve_and_save_tbasedwtotal(filename, outputfilename, timelimit=1800):
 
     write_schedule(schedule, outputfilename)
 
+def solve_and_save_guantotal(filename, outputfilename, timelimit=1800):
+    import formulations.guan.tardyjobs
+    import formulations.guan.results_reader
+    builder = formulations.guan.tardyjobs.get_formulation_total
+    reader = formulations.guan.results_reader.read
+
+    data = converters.fileconvert.load_data(filename)
+    schedule = formulations.cplex_mip.solve(data, builder, reader, timelimit=timelimit)
+
+    write_schedule(schedule, outputfilename)
 
 def solve_and_save_guantbased_combined(filename, outputfilename, divider, dataconverter):
 

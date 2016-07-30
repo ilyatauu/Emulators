@@ -329,7 +329,6 @@ class EmulatorsCpSolver(object):
 
         return model
 
-
     def get_opl_model(self, job_tuples, number_of_boards):
         model = self.get_opl_template()
         model = model.replace("@number_of_boards", repr(number_of_boards))
