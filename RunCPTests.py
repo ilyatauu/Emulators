@@ -22,7 +22,7 @@ def get_path_from_user():
 
     return path
 
-def solve_and_save(fullfilename, cp_dir, seconds_limit):
+def solve_and_save_penalty_only(fullfilename, cp_dir, seconds_limit):
     if not os.path.exists(cp_dir):
         os.mkdir(cp_dir)
 
@@ -58,6 +58,41 @@ def solve_and_save(fullfilename, cp_dir, seconds_limit):
     outf.flush()
     outf.close()
 
+def solve_and_save_dual(fullfilename, cp_dir, seconds_limit):
+    if not os.path.exists(cp_dir):
+        os.mkdir(cp_dir)
+
+    filename = os.path.basename(fullfilename)
+    file_out = os.path.join(cp_dir, filename + ".out")
+
+    if os.path.exists(file_out):
+        return
+
+    problem_data = common.load_data2(fullfilename)
+    solver = cpbased.EmulatorsCpSolver()
+    solver.total_penalty_lower_bound = None
+    solver.time_limit = seconds_limit
+    result = solver.solve(problem_data[0],problem_data[1])
+    print "Objective value: " + `result.objective_value`
+
+    file_out = os.path.join(cp_dir, filename + ".out")
+    print("Writing to file: " + file_out)
+    outf = open(file_out, "w")
+
+    if result.optimal:
+        optimal_int = 1
+    else:
+        optimal_int = 0
+
+    if not result.feasible:
+        output = ["-1," + `optimal_int`] + ["\n"]
+    else:
+        output = [`result.objective_value` + ","+ `optimal_int` + "," + `result.total_run_time`] + ["\n"]
+
+    outf.writelines(output)
+    outf.flush()
+    outf.close()
+
 def solve_path(path):
     data_files = sorted([os.path.join(path, x) for x in os.listdir(path) if os.path.splitext(x)[1] == ".csv" and
                          not x.startswith("result")])
@@ -89,6 +124,7 @@ def solve_path(path):
         # solve_and_save(f, cp_dir + "_1200s", 1200)
         # solve_and_save(f, cp_dir + "_1800s", 1800)
         # solve_and_save(f,cp_dir+"_40s", 40)
+
     # for f in data_files:
     #     solve_and_save(f, cp_dir + "_1s", 1)
     #
